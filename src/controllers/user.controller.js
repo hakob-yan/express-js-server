@@ -7,8 +7,13 @@ class UserController {
   }
   static getAllUsers(req, res) {
     const users = UserService.getAllUsers();
-    throw new Error("Something went wrong while fetching users");
     res.send(users).status(200);
+  }
+
+  static getHeavyComputation(req, res) {
+    const result = UserService.heavyComputation();
+    res.send({ result }).status(200);
+
   }
 }
 

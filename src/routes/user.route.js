@@ -16,5 +16,9 @@ router.get(
   AuthMiddleware.authenticate,
   asyncHandler(UserController.getAllUsers),
 );
-
+router.get(
+  "/heavy-computation",
+  AuthMiddleware.authenticate,
+  asyncHandler(UserController.getHeavyComputation),
+);
 export default router;
