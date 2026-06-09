@@ -35,7 +35,8 @@ services:
       PORT: ${PORT:-3000}
       DB_USERNAME: ${DB_USERNAME:-postgres}
       DB_PASSWORD: ${DB_PASSWORD:-password123}
-      HOST: postgres_db
+      DB_HOST: postgres_db
+      APP_HOST: "0.0.0.0"
       DB_PORT: 5432
       DB_NAME: ${DB_NAME:-my_database}
     depends_on:

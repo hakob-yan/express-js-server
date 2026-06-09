@@ -4,7 +4,7 @@ import { env } from "./env.js";
 const { Pool } = pg;
 const pool = new Pool({
   user: env.DB_USERNAME,
-  host: env.HOST,
+  host: env.DB_HOST,
   password: env.DB_PASSWORD,
   port: env.DB_PORT,
   database: env.DB_NAME,
