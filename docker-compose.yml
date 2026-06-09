@@ -1,0 +1,47 @@
+version: '3.8'
+
+services:
+  postgres_db:
+    image: postgres:15-alpine
+    container_name: my_postgres_db
+    restart: always
+    environment:
+      POSTGRES_USER: ${DB_USERNAME:-postgres}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-password123}
+      POSTGRES_DB: ${DB_NAME:-my_database}
+    ports:
+      - "${DB_PORT:-5432}:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    # The healthcheck tests if Postgres is genuinely ready
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  api_server:
+    build: .
+    container_name: my_api_server
+    restart: always
+    ports:
+      - "${PORT:-3000}:${PORT:-3000}"
+    # Mounts your local code into the container so changes reflect instantly via nodemon
+    volumes:
+      - .:/app
+      - /app/node_modules
+    environment:
+      NODE_ENV: development
+      PORT: ${PORT:-3000}
+      DB_USERNAME: ${DB_USERNAME:-postgres}
+      DB_PASSWORD: ${DB_PASSWORD:-password123}
+      HOST: postgres_db
+      DB_PORT: 5432
+      DB_NAME: ${DB_NAME:-my_database}
+    depends_on:
+      postgres_db:
+        condition: service_healthy # Node waits until the healthcheck passes
+
+volumes:
+  pgdata:
+    driver: local
