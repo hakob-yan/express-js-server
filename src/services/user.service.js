@@ -2,7 +2,7 @@ import db from "../config/knex.js";
 
 class UserService {
   static async getUsers() {
-    return await db("users").select("*");
+    return (await db("users").select("*").leftJoin("posts", "users.id", "=", "posts.user_id"));
   }
   static async heavyComputation() {
     const now = Date.now();
