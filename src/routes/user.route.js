@@ -6,19 +6,21 @@ import validateResource from "../middlewares/validate.resource.js";
 import userSchema from "../schemas/user.schema.js";
 const router = express.Router();
 
+router.get(
+  "/",
+  AuthMiddleware.authenticate,
+  asyncHandler(UserController.getUsers),
+);
 router.post(
   "/",
   validateResource(userSchema),
   asyncHandler(UserController.createUser),
 );
-router.get(
-  "/",
-  AuthMiddleware.authenticate,
-  asyncHandler(UserController.getAllUsers),
-);
+
 router.get(
   "/heavy-computation",
   AuthMiddleware.authenticate,
   asyncHandler(UserController.getHeavyComputation),
 );
+
 export default router;

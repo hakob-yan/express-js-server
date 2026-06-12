@@ -1,17 +1,10 @@
-import pool from "../config/database.js";
+import db from "../config/knex.js";
 
 class UserService {
-  static createUsers(userData) {
-    return userData;
+  static async getUsers() {
+    return await db("users").select("*");
   }
-  static getAllUsers() {
-    return [
-      { id: 1, name: "Alice" },
-      { id: 2, name: "Bob" },
-      { id: 3, name: "Charlie" },
-    ];
-  }
-  static heavyComputation() {
+  static async heavyComputation() {
     const now = Date.now();
     let sum = 0;
     for (let i = 0; i < 1e9; i++) {
@@ -22,8 +15,13 @@ class UserService {
       }
       sum += i;
     }
-   
+
     return sum;
+  }
+
+  static async createUser(userData) {
+    const users = await db("users").insert(userData).returning("*");
+    return users;
   }
 }
 
