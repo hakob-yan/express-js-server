@@ -16,7 +16,15 @@ router.post(
   validateResource(userSchema),
   asyncHandler(UserController.createUser),
 );
-
+router.put(
+  "/:id",
+  validateResource(userSchema),
+  asyncHandler(UserController.updateUser),
+);
+router.delete(
+  "/:id",
+  asyncHandler(UserController.deleteUser),
+);
 router.get(
   "/heavy-computation",
   AuthMiddleware.authenticate,

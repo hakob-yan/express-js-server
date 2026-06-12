@@ -23,6 +23,17 @@ class UserService {
     const users = await db("users").insert(userData).returning("*");
     return users;
   }
+
+  static async updateUser(id, userData) {
+    const users = await db("users").where({ id }).update({ ...userData, updated_at: db.fn.now() }).returning("*");
+    return users;
+  }
+
+  static async deleteUser(id) {
+    const users = await db("users").where({ id }).del().returning("*");
+    return users;
+
+  }
 }
 
 export default UserService;
