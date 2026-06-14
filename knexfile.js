@@ -12,6 +12,15 @@ const config = {
       password: 'asdasd',
       database: 'admin_01'
     }
+  },
+  test: {
+    client: 'pg',
+    connection: {
+      host: 'localhost',
+      user: 'postgres',
+      password: 'asdasd',
+      database: 'admin_01'
+    }
   }
 };
 export default config;
