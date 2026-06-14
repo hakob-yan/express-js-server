@@ -1,11 +1,19 @@
 image: node:22-alpine
+
+services:
+  - postgres:15-alpine
+
+variables:
+  POSTGRES_DB: testdb
+  POSTGRES_USER: postgres
+  POSTGRES_PASSWORD: password
+
 stages:
   - test
 
 run_tests:
+  stage: test
   before_script:
     - npm install
-  stage: test
   script:
     - npm run test
-  
