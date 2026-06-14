@@ -1,6 +1,6 @@
 import dotenv from "dotenv";
 
-dotenv.config({ path: "./src/.env" });
+dotenv.config({ path: "./.env" });
 export const env = {
   PORT: process.env.PORT,
   APP_HOST: process.env.APP_HOST,
