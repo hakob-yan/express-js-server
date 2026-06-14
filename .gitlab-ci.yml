@@ -2,6 +2,8 @@ stages:
   - test
 
 run_tests:
+  before_script:
+    - npm install
   stage: test
   script:
     - npm run dev
