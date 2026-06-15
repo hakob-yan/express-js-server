@@ -1,6 +1,7 @@
 import UserService from "../services/user.service.js";
 
 class UserController {
+
   static async getUsers(req, res) {
     const users = await UserService.getUsers();
     res.status(200).send(users);

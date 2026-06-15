@@ -5,7 +5,6 @@ import asyncHandler from "../utils/asyncHandler.js";
 import validateResource from "../middlewares/validate.resource.js";
 import userSchema from "../schemas/user.schema.js";
 const router = express.Router();
-
 router.get(
   "/",
   AuthMiddleware.authenticate,

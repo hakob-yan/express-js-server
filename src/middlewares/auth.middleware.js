@@ -1,6 +1,8 @@
 class AuthMiddleware {
   static authenticate(req, res, next) {
-    console.log("Authenticating user...");
+    if (!req.session.userId || !req.session.role) {
+      return res.status(401).json({ message: "Unauthorized" });
+    }
     next();
   }
 }
