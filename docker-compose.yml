@@ -1,6 +1,12 @@
-version: '3.8'
-
 services:
+  redis: 
+    image: redis:latest
+    container_name: my_redis
+    restart: always
+    ports:
+      - "6379:6379"
+    volumes:
+      - redisdata:/data
   postgres_db:
     image: postgres:15-alpine
     container_name: my_postgres_db
@@ -15,7 +21,7 @@ services:
       - pgdata:/var/lib/postgresql/data
     # The healthcheck tests if Postgres is genuinely ready
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      test: ["CMD", "pg_isready", "-U", "${DB_USERNAME:-postgres}", "-d", "${DB_NAME:-my_database}"]
       interval: 5s
       timeout: 5s
       retries: 5
@@ -39,10 +45,15 @@ services:
       APP_HOST: "0.0.0.0"
       DB_PORT: 5432
       DB_NAME: ${DB_NAME:-my_database}
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      SESSION_SECRET: ${SESSION_SECRET:-your-secret-key}
     depends_on:
       postgres_db:
         condition: service_healthy # Node waits until the healthcheck passes
 
 volumes:
   pgdata:
+    driver: local
+  redisdata:
     driver: local
